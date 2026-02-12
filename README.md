@@ -4,7 +4,7 @@ This is my personal NixOS configuration for an ARM MacOS device.
 
 ## Prerequisites
 
-[Install Nix](https://nixos.org/download/).
+Install [Determinate Nix](https://docs.determinate.systems/) using the macOS `.pkg` installer.
 
 ## First-time setup
 

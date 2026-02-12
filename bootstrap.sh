@@ -10,7 +10,7 @@ if [ ! -f "$HOME/nixos-private/user.nix" ]; then
 fi
 
 echo "Building system configuration..."
-NIXPKGS_ALLOW_UNFREE=1 nix --extra-experimental-features 'nix-command flakes' build --impure ".#darwinConfigurations.${system}.system"
+nix build --impure ".#darwinConfigurations.${system}.system"
 
 echo "Switching to new generation..."
 sudo ./result/sw/bin/darwin-rebuild switch --impure --flake ".#${system}"

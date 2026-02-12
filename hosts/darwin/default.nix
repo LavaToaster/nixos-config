@@ -7,7 +7,6 @@
 
 let
   user = userConfig.username;
-  sslCertFile = userConfig.sslCertFile or null;
 in
 
 {
@@ -17,44 +16,8 @@ in
     ../../modules/shared
   ];
 
-  # Setup user, packages, programs
-  nix = {
-    package = pkgs.nix;
-
-    settings = {
-      trusted-users = [
-        "@admin"
-        "${user}"
-      ];
-      substituters = [
-        "https://nix-community.cachix.org"
-        "https://cache.nixos.org"
-      ];
-      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
-    }
-    // (
-      if sslCertFile != null then
-        {
-          ssl-cert-file = sslCertFile;
-        }
-      else
-        { }
-    );
-
-    gc = {
-      automatic = true;
-      interval = {
-        Weekday = 0;
-        Hour = 2;
-        Minute = 0;
-      };
-      options = "--delete-older-than 30d";
-    };
-
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-  };
+  # Nix is managed by Determinate Nix (uses macOS Keychain for CA certs)
+  nix.enable = false;
 
   # Turn off NIX_PATH warnings now that we're using flakes
 

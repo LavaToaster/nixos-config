@@ -45,7 +45,6 @@ with pkgs;
   just
   nil
   nixd
-  curl
   terraform
   kind
   kubectl

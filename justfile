@@ -3,7 +3,7 @@ flake_system := "darwinConfigurations." + system + ".system"
 
 # Build the system configuration
 build *args:
-    NIXPKGS_ALLOW_UNFREE=1 nix --extra-experimental-features 'nix-command flakes' build --impure .#{{flake_system}} {{args}}
+    nix build --impure .#{{flake_system}} {{args}}
 
 # Build and switch to the new generation
 switch *args: (build args)
