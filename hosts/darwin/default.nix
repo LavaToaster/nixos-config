@@ -1,0 +1,135 @@
+{
+  config,
+  pkgs,
+  userConfig,
+  ...
+}:
+
+let
+  user = userConfig.username;
+  sslCertFile = userConfig.sslCertFile or null;
+in
+
+{
+
+  imports = [
+    ../../modules/darwin/home-manager.nix
+    ../../modules/shared
+  ];
+
+  # Setup user, packages, programs
+  nix = {
+    package = pkgs.nix;
+
+    settings = {
+      trusted-users = [
+        "@admin"
+        "${user}"
+      ];
+      substituters = [
+        "https://nix-community.cachix.org"
+        "https://cache.nixos.org"
+      ];
+      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    }
+    // (
+      if sslCertFile != null then
+        {
+          ssl-cert-file = sslCertFile;
+        }
+      else
+        { }
+    );
+
+    gc = {
+      automatic = true;
+      interval = {
+        Weekday = 0;
+        Hour = 2;
+        Minute = 0;
+      };
+      options = "--delete-older-than 30d";
+    };
+
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
+  # Turn off NIX_PATH warnings now that we're using flakes
+
+  # Load configuration that is shared across systems
+  environment.variables = {
+    DOTNET_ROOT = "${pkgs.dotnet-sdk_8}/share/dotnet";
+  };
+
+  environment.systemPackages =
+    with pkgs;
+    (import ../../modules/shared/packages.nix { inherit pkgs; });
+
+  system = {
+    checks.verifyNixPath = false;
+    primaryUser = user;
+    stateVersion = 5;
+
+    defaults = {
+      NSGlobalDomain = {
+        AppleShowAllExtensions = true;
+        ApplePressAndHoldEnabled = false;
+
+        # 120, 90, 60, 30, 12, 6, 2
+        KeyRepeat = 2;
+
+        # 120, 94, 68, 35, 25, 15
+        InitialKeyRepeat = 15;
+
+        "com.apple.mouse.tapBehavior" = 1;
+        "com.apple.sound.beep.volume" = 0.0;
+        "com.apple.sound.beep.feedback" = 0;
+      };
+
+      dock = {
+        autohide = true;
+        show-recents = false;
+        launchanim = true;
+        orientation = "bottom";
+        tilesize = 48;
+      };
+
+      finder = {
+        _FXShowPosixPathInTitle = false;
+      };
+
+      trackpad = {
+        Clicking = true;
+        TrackpadThreeFingerDrag = true;
+      };
+
+      CustomUserPreferences = {
+        "com.apple.symbolichotkeys" = {
+          AppleSymbolicHotKeys = {
+            # Disable 'Cmd + Space' for Spotlight Search
+            "64" = {
+              enabled = false;
+            };
+            # Disable 'Cmd + Alt + Space' for Finder search window
+            "65" = {
+              enabled = false;
+            };
+          };
+        };
+      };
+    };
+
+    activationScripts.postActivation.text = ''
+      # Following line should allow us to avoid a logout/login cycle when changing settings
+      sudo -u ${user} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+
+      # Symlink nix-installed podman to /usr/local/bin so Podman Desktop can find it
+      ln -sf "${pkgs.podman}/bin/podman" /usr/local/bin/podman
+      ln -sf "${pkgs.podman-compose}/bin/podman-compose" /usr/local/bin/podman-compose
+      ln -sf "${pkgs.kubectl}/bin/kubectl" /usr/local/bin/kubectl
+      ln -sf "${pkgs.kind}/bin/kind" /usr/local/bin/kind
+    '';
+  };
+}
