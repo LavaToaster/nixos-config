@@ -20,13 +20,13 @@ rollback:
     #!/usr/bin/env bash
     set -e
     echo "Available generations:"
-    /run/current-system/sw/bin/darwin-rebuild --list-generations
+    sudo /run/current-system/sw/bin/darwin-rebuild --list-generations
     read -p "Enter generation number for rollback: " GEN_NUM
     if [ -z "$GEN_NUM" ]; then
       echo "No generation number entered. Aborting."
       exit 1
     fi
-    /run/current-system/sw/bin/darwin-rebuild switch --flake .#{{system}} --switch-generation "$GEN_NUM"
+    sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#{{system}} --switch-generation "$GEN_NUM"
     echo "Rolled back to generation $GEN_NUM."
 
 # Generate ~/nixos-private/user.nix interactively
