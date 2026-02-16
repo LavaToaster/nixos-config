@@ -42,6 +42,7 @@ with pkgs;
   zsh-powerlevel10k
 
   # Development tools
+  gnumake
   just
   nil
   nixd
