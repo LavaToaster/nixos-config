@@ -6,6 +6,7 @@
     package = null; # installed via Homebrew
 
     settings = {
+      font-family = "FiraCode Nerd Font";
       theme = "Dark Modern";
       keybind = [
         "cmd+left=previous_tab"
