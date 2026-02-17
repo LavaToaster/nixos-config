@@ -44,7 +44,7 @@ in
         KeyRepeat = 2;
 
         # 120, 94, 68, 35, 25, 15
-        InitialKeyRepeat = 15;
+        InitialKeyRepeat = 35;
 
         "com.apple.mouse.tapBehavior" = 1;
         "com.apple.sound.beep.volume" = 0.0;
