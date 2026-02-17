@@ -105,6 +105,11 @@ in
             ''
               # Point Node.js at the custom certificate bundle
               export NODE_EXTRA_CA_CERTS="${sslCertFile}"
+
+              # Point Python/pip/pipx and general SSL at the custom certificate bundle
+              export REQUESTS_CA_BUNDLE="${sslCertFile}"
+              export SSL_CERT_FILE="${sslCertFile}"
+              export PIP_CERT="${sslCertFile}"
             ''
           else
             ""
@@ -145,9 +150,12 @@ in
           # Ripgrep alias
           alias search="rg -p --glob '!node_modules/*'"
 
+          alias ports="lsof -iTCP -sTCP:LISTEN -P"
 
 
-          # Docker compatibility
+
+          # Compatibility aliases
+          alias terraform=tofu
           alias docker=podman
           alias docker-compose=podman-compose
 
