@@ -84,7 +84,7 @@ in
           # PATH
           export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
           export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
-          export PATH=$HOME/.local/share/bin:$PATH
+          export PATH=$HOME/.local/bin:$HOME/.local/share/bin:$PATH
           export PATH=$HOME/.cargo/bin:$PATH
 
 
@@ -133,7 +133,6 @@ in
           alias vim="nvim"
           alias v="nvim"
           alias cat="bat --paging=never --theme=Dracula"
-
           # nix shortcuts
           shell() {
               nix-shell '<nixpkgs>' -A "$1"

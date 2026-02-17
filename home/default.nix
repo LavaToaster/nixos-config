@@ -30,6 +30,9 @@
         source = ../modules/shared/config/nvim;
         recursive = true;
       };
+      ".local/bin/bazel" = {
+        source = "${pkgs.bazelisk}/bin/bazelisk";
+      };
     };
     stateVersion = "23.11";
   };
