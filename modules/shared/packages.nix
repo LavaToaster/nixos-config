@@ -46,12 +46,16 @@ with pkgs;
   just
   nil
   nixd
-  terraform
+  opentofu
   kind
   kubectl
   k9s
   kubie
   awscli2
+  pipx
+  nvd
+  bazelisk
+  bazel-watcher
   lazygit
   fzf
 

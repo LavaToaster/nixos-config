@@ -8,6 +8,7 @@ _:
   "zed"
   "podman-desktop"
   "jetbrains-toolbox"
+  "bruno"
 
   # Productivity
   "raycast"
