@@ -7,6 +7,7 @@ build *args:
 
 # Build and switch to the new generation
 switch *args: (build args)
+    nix run nixpkgs#nvd -- diff /run/current-system ./result
     # See https://github.com/nix-darwin/nix-darwin/issues/1457 on why we need sudo
     sudo ./result/sw/bin/darwin-rebuild switch --impure --flake .#{{system}} {{args}}
     unlink ./result
