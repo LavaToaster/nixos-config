@@ -17,6 +17,7 @@ _:
 
   # Browsers
   "zen"
+  "google-chrome"
 
   # Communication
   "microsoft-teams"

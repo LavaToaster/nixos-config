@@ -58,9 +58,13 @@ with pkgs;
   bazel-watcher
   lazygit
   fzf
+  kubernetes-helm
+  argocd
 
   # Programming languages and runtimes
   go
+  gotools
+  grpcurl
   rustc
   cargo
   openjdk
