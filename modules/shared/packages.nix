@@ -60,6 +60,7 @@ with pkgs;
   fzf
   kubernetes-helm
   argocd
+  crossplane-cli
 
   # Programming languages and runtimes
   go
@@ -68,6 +69,7 @@ with pkgs;
   rustc
   cargo
   openjdk
+  pnpm
 
   # Python packages
   python3
@@ -75,4 +77,5 @@ with pkgs;
 
   # Productivity
   obsidian
+  d2
 ]

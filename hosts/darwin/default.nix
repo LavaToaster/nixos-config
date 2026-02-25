@@ -88,6 +88,10 @@ in
       # Following line should allow us to avoid a logout/login cycle when changing settings
       sudo -u ${user} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
 
+      # Symlink podman socket to /var/run/docker.sock for Docker compatibility
+      user_tmp=$(sudo -u ${user} getconf DARWIN_USER_TEMP_DIR)
+      ln -sf "''${user_tmp}podman/podman-machine-default-api.sock" /var/run/docker.sock
+
       # Symlink nix-installed podman to /usr/local/bin so Podman Desktop can find it
       ln -sf "${pkgs.podman}/bin/podman" /usr/local/bin/podman
       ln -sf "${pkgs.podman-compose}/bin/podman-compose" /usr/local/bin/podman-compose

@@ -99,6 +99,9 @@ in
           export EDITOR="nvim"
           export VISUAL="nvim"
 
+          # Podman Docker compatibility
+          export DOCKER_HOST="unix://$TMPDIR/podman/podman-machine-default-api.sock"
+
         ''
         + (
           if sslCertFile != null then
@@ -162,6 +165,8 @@ in
 
           # Completion styles
           zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+          # Prevent fzf-tab from using typed input (e.g. "home/") as the fzf query, which filters out all results
+          zstyle ':fzf-tab:*' query-string prefix
 
           if [ -n "''${TMUX}" ]; then
             zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
